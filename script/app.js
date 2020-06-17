@@ -8,11 +8,17 @@
 				gameBoard = document.querySelector(".puzzle-board");
 				// one to one relationship -> returns the first matching element
 
+	let imageNames = ["topLeft", "topRight", "bottomLeft", "bottomRight"];
+	// ["img1", "img2", "img3", "img4"]
+
 
   // add event handling here -> how is the user going to use our app?
   // what triggers do we need?
 	function changeImageSet() {
 		// change all the image elements on the page -> draggable image sources,
+		imageNames.forEach((piece, index) => {
+			puzzlePieces[index].src = `images/${piece + this.dataset.bgkey}.jpg`;
+		});
 
 		// and set the drop zone background
 		gameBoard.style.backgroundImage = `url(images/backGround${this.dataset.bgkey}.jpg)`;
