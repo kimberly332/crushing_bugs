@@ -19,9 +19,14 @@
 		// #gameBoard { background-image: url('../images/newBackground0.jpg')}
 	}
 
-	function allowDrag() {
+	function allowDrag(event) {
 		// let the drag happen, and store a reference of the ID of the element we're dragging
 		console.log ("started dragging an image: this one - ", event.target.id);
+
+		event.dataTransfer.setData("draggedImg", this.id);
+		// event.dataTransfer.setData("targetTrack", this.dataset.track);
+
+		// set a reference to a data track so I can retrieve it later in the drop
 	}
 
 	function allowDragOver(event) {
@@ -31,18 +36,24 @@
 
 	function allowDrop(event) {
 		console.log("dropped something on me");
+
+		let droppedImage = event.dataTransfer.getData("draggedImg");
+		// let currentTrack = event.getData("targetTrack");
+
+		event.target.appendChild(document.querySelector(`#${droppedImage}`));
+		//debugger;
 	}
 
 
 	// click on the bottom buttons to change the puzzle image we're working with
 	puzzleButtons.forEach(button => button.addEventListener('click', changeImageSet));
-
 	puzzlePieces.forEach(piece => piece.addEventListener('dragstart', allowDrag));
 
-	dropZones.forEach(zone => {
+
+	for (let zone of dropZones) {
 		zone.addEventListener(`dragover`, allowDragOver);
 		zone.addEventListener(`drop`, allowDrop);
-	});
+	}
 
 	//research call, apply and bind
 	changeImageSet.call(puzzleButtons[0]); //emulates a click on the first bottom button
