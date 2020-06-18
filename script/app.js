@@ -8,7 +8,10 @@
 				dropBack = document.querySelectorAll(".puzzle-pieces"),
 				gameBoard = document.querySelector(".puzzle-board");
 				// one to one relationship -> returns the first matching element
-
+	// record number of image in the dropzone (right)
+	let countTl = 0, countTr = 0, countBl = 0, countBr = 0;
+	// record number of image in puzzle board (left)
+	let countPuzzle = 4;
 	let imageNames = ["topLeft", "topRight", "bottomLeft", "bottomRight"];
 	// ["img1", "img2", "img3", "img4"]
 
@@ -43,13 +46,76 @@
 
 	function allowDrop(event) {
 		console.log("dropped something on me");
-
 		let droppedImage = event.dataTransfer.getData("draggedImg");
 		// let currentTrack = event.getData("targetTrack");
 
-		event.target.appendChild(document.querySelector(`#${droppedImage}`));
-		//debugger;
+		if (this.className == "drop-zone tl") {
+			if (countTl == 0) {
+				event.target.appendChild(document.querySelector(`#${droppedImage}`));
+				countTl ++;
+				countPuzzle --;
+				}
+				else {
+					console.log("Not droppable!");
+				}
+			}
+			else if (this.className == "drop-zone tr") {
+				if (countTr == 0) {
+					event.target.appendChild(document.querySelector(`#${droppedImage}`));
+					countTr ++;
+					countPuzzle --;
+				}
+				else {
+					console.log("Not droppable!");
+				}
+			}
+			else if (this.className == "drop-zone bl") {
+				if (countBl == 0) {
+					event.target.appendChild(document.querySelector(`#${droppedImage}`));
+					countBl ++;
+					countPuzzle --;
+				}
+				else {
+					console.log("Not droppable!");
+				}
+			}
+			else if (this.className == "drop-zone br") {
+				if (countBr == 0) {
+					event.target.appendChild(document.querySelector(`#${droppedImage}`));
+					countBr ++;
+					countPuzzle --;
+				}
+				else {
+					console.log("Not droppable!");
+				}
+			}
 	}
+
+	function allowDropBack(event) {
+			console.log("dropped back something on me");
+			let droppedImage = event.dataTransfer.getData("draggedImg");
+			// let className = this.className;
+	    if (countPuzzle < 4) {
+				let parent = document.getElementById(droppedImage).parentElement; // parent node is one of drop zone
+				event.target.appendChild(document.querySelector(`#${droppedImage}`));
+				countPuzzle ++;
+				if (parent.className == "drop-zone tl") {
+					countTl --;
+				}
+				else if (parent.className == "drop-zone tr") {
+					countTr --;
+				}
+				else if (parent.className == "drop-zone bl") {
+					countBl --;
+				}
+				else if (parent.className == "drop-zone br") {
+					countBr --;
+				}
+			}
+			else {
+				console.log("Not droppable!");
+			}
+		}
 
 
 	// click on the bottom buttons to change the puzzle image we're working with
@@ -58,13 +124,13 @@
 
 
 	for (let zone of dropZones) {
-		zone.addEventListener(`dragover`, allowDragOver);
-		zone.addEventListener(`drop`, allowDrop);
+		zone.addEventListener('dragover', allowDragOver);
+		zone.addEventListener('drop', allowDrop);
 	}
 
 	for (let piece of dropBack) {
-		piece.addEventListener(`dragover`, allowDragOver);
-		piece.addEventListener(`drop`, allowDrop);
+		piece.addEventListener('dragover', allowDragOver);
+		piece.addEventListener('drop', allowDropBack);
 	}
 
 	//research call, apply and bind
