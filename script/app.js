@@ -5,6 +5,7 @@
 
 				puzzlePieces = document.querySelectorAll(".puzzle-image"),
 				dropZones = document.querySelectorAll(".drop-zone"),
+				dropBack = document.querySelectorAll(".puzzle-pieces"),
 				gameBoard = document.querySelector(".puzzle-board");
 				// one to one relationship -> returns the first matching element
 
@@ -59,6 +60,11 @@
 	for (let zone of dropZones) {
 		zone.addEventListener(`dragover`, allowDragOver);
 		zone.addEventListener(`drop`, allowDrop);
+	}
+
+	for (let piece of dropBack) {
+		piece.addEventListener(`dragover`, allowDragOver);
+		piece.addEventListener(`drop`, allowDrop);
 	}
 
 	//research call, apply and bind
