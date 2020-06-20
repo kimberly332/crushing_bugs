@@ -2,7 +2,6 @@
 	// set up the puzzle pieces and boards
 	const puzzleButtons = document.querySelectorAll('#buttonHolder img'),
 				// querySelectorAll is for a one to many relationship and returns a Nodelust (an array) of matching elements
-
 				puzzlePieces = document.querySelectorAll(".puzzle-image"),
 				dropZones = document.querySelectorAll(".drop-zone"),
 				dropBack = document.querySelectorAll(".puzzle-pieces"),
@@ -12,12 +11,10 @@
 	let countTl = 0, countTr = 0, countBl = 0, countBr = 0;
 	// record number of image in puzzle board (left)
 	let countPuzzle = 4;
+	// record 1-to-1 position relationship between image sets
 	let imageNames = ["topLeft", "topRight", "bottomLeft", "bottomRight"];
-	// ["img1", "img2", "img3", "img4"]
 
 
-  // add event handling here -> how is the user going to use our app?
-  // what triggers do we need?
 	function changeImageSet() {
 		// change all the image elements on the page -> draggable image sources,
 		imageNames.forEach((piece, index) => {
@@ -32,11 +29,7 @@
 	function allowDrag(event) {
 		// let the drag happen, and store a reference of the ID of the element we're dragging
 		console.log ("started dragging an image: this one - ", event.target.id);
-
 		event.dataTransfer.setData("draggedImg", this.id);
-		// event.dataTransfer.setData("targetTrack", this.dataset.track);
-
-		// set a reference to a data track so I can retrieve it later in the drop
 	}
 
 	function allowDragOver(event) {
@@ -117,9 +110,35 @@
 			}
 		}
 
+		// set a function for reset puzzle piece
+		function resetPuzzlePieces(event) {
+			let sectionLeft = document.getElementById("left");
+			// store the images temporarily in the drag zones that need to append back
+			let imgStore = [];
+
+			// loop through each drop zone
+			for (i = 1; i <= 4; i ++ ){
+				let zoneID = "zone" + i.toString();
+				let zone = document.getElementById(zoneID);
+				while (zone.firstChild) {
+					// store the image into imgStore
+					imgStore.push(zone.firstChild);
+					// remove image from zone
+					zone.removeChild(zone.firstChild);
+				}
+			}
+
+			// loop through each image in imgStore, append each image back to puzzle board
+			imgStore.forEach(img => sectionLeft.appendChild(img));
+			// reset each counter
+			countTl = 0, countTr = 0, countBl = 0, countBr = 0, countPuzzle = 4;
+
+		}
+
 
 	// click on the bottom buttons to change the puzzle image we're working with
 	puzzleButtons.forEach(button => button.addEventListener('click', changeImageSet));
+	puzzleButtons.forEach(reset => reset.addEventListener('click', resetPuzzlePieces));
 	puzzlePieces.forEach(piece => piece.addEventListener('dragstart', allowDrag));
 
 
