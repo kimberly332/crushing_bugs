@@ -18,6 +18,6 @@ HTML CSS JS
 
 ### License
 
-Copyright © 2020, [Shan-Li Wang](https://github.com/kimberly332).
+Copyright © 2022, [Shan-Li Wang](https://github.com/kimberly332).
 Released under the MIT License.
 
